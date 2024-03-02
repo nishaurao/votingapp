@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 from .forms import UserRegisterForm
+
 
 
 # Create your views here.
