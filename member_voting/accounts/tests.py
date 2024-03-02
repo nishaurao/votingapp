@@ -1,5 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
+from accounts.models import CustomUser 
+
+
+
 
 # Create your tests here.
 
@@ -59,3 +63,30 @@ class RegisterViewTestCase(TestCase):
         self.assertEqual(form.errors['username'], ['This field is required.'])  # Check specific error message
 
 
+
+class LoginViewTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = CustomUser.objects.create_user(username='testuser', password='password123')
+
+    def test_login_success(self):
+        response = self.client.post(reverse('login'), {'username': 'testuser', 'password': 'password123'}, follow=True)
+        self.assertTrue(response.context['user'].is_authenticated)
+        self.assertRedirects(response, reverse('profile'))
+
+    def test_login_failure(self):
+        response = self.client.post(reverse('login'), {'username': 'testuser', 'password': 'wrongpassword'}, follow=True)
+        self.assertFalse(response.context['user'].is_authenticated)
+        self.assertContains(response, 'Invalid username or password.')
+
+
+class UserDetailsViewTestCase(TestCase):
+    def test_user_details_view(self):
+        # Make a GET request to the user_details view
+        response = self.client.get(reverse('user_details'))
+
+        # Check if the response status code is 200
+        self.assertEqual(response.status_code, 200)
+
+        # Check if the correct template is used
+        self.assertTemplateUsed(response, 'accounts/user_details.html')

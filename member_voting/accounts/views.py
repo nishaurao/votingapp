@@ -40,3 +40,14 @@ def login_view(request):
             messages.error(request, 'Invalid username or password.')
     return render(request, 'accounts/login.html')
 
+@login_required
+def profile_view(request):
+    user = request.user
+    return render(request, 'accounts/profile.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+def user_details(request):
+    return render(request, 'accounts/user_details.html')
