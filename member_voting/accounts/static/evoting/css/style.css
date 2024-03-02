@@ -1,0 +1,21 @@
+.custom-card {
+    background-color: #e5c1c1; /* Light gray background color */
+    border-radius: 10px; /* Border radius for the card */
+    padding: 20px; /* Padding inside the card */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adding a shadow */
+}
+
+.user-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.user-table td, .user-table th {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.user-table th {
+    background-color: #f2f2f2;
+}

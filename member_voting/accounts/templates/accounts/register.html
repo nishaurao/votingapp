@@ -1,0 +1,195 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Online voting system</title>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Font-->
+	<link rel="stylesheet" type="text/css" href="{% static 'evoting/css/opensans-font.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'evoting/css/bootstrap.css' %}">
+
+	<!-- datepicker -->
+	<link rel="stylesheet" type="text/css" href="{% static 'evoting/css/jquery-ui.min.css' %}">
+	<!-- Main Style Css -->
+    <link rel="stylesheet" href="{% static 'evoting/css/style.css'%}"/>
+</head>
+
+
+<body>
+    <div class="container mt-5">
+		<div class="row">
+			<div class="col-md-12">
+			<h1 class="card-title text-center mb-4">Online Voting System</h1>
+			</div>
+        </div>
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field in form %}
+                {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+		<div class="card custom-card">
+				<div class="card-body">
+                    <form method="post">
+                    {% csrf_token %}
+                    <div id="form-total">
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstname">First Name</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name" 
+                                         value="{{ form.first_name.value|default_if_none:'' }}"  required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastname">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" 
+                                        value="{{ form.last_name.value|default_if_none:'' }}"  required>
+                                    </div>
+                                </div>
+								
+                            </div>
+							<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ird_number">IRD Number</label>
+                                        <input type="number" class="form-control" id="ird_number" name="ird_number" 
+                                        value="{{ form.ird_number.value|default_if_none:'' }}"  required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" 
+                                        value="{{ form.phone.value|default_if_none:'' }}" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">E-Mail</label>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                        value="{{ form.email.value|default_if_none:'' }}"  required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="dob">Date of Birth</label>
+                                         <input type="date" class="form-control" id="dob" name="dob" 
+                                        value="{{ form.dob.value|default_if_none:'' }}"  required >
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+							<div class="row">
+								<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" 
+                                        value="{{ form.username.value|default_if_none:'' }}"  required>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="password1">Password</label>
+                                        <input type="password" class="form-control" id="password1" name="password1" 
+                                        value="{{ form.password1.value|default_if_none:'' }}"  required>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="row">
+								<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="password2">Confirm Password</label>
+                                        <input type="password" class="form-control" id="password2" name="password2"  
+                                        value="{{ form.password2.value|default_if_none:'' }}"  required oninput="checkPasswordMatch()" >
+                                        <div id="passwordMatchError" style="color: red;"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+							
+							<div class="row">
+								<div class="col-md-12 text-center">
+                                    <input type="hidden" class="form-control" id="role" name="role"  
+                                    value="voter"  />
+									<button type="submit" class="btn btn-warning">Submit</button>
+							    </div>
+						    </div>
+							<div class="row">
+								<div class="col-md-12 text-center mt-2">
+									Already registered? <a href="{% url 'login' %}" style="text-decoration: none; color:green" > Login Here </a>
+								</div>
+							</div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->	
+	<script src="{% static 'evoting/js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'evoting/js/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'evoting/js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript">
+		
+    //$('#member_dob').datepicker({ dateFormat: 'dd-mm-yy' }).val();
+    $(document).ready(function() {
+            // Custom validation for email field
+            $('#form-register').submit(function(e) {
+
+                var emailInput = $('#member_email');
+                var email = emailInput.val();
+                var isValidEmail = validateEmail(email);
+                
+                if (!isValidEmail && email !== '') {
+                    emailInput.addClass('is-invalid');
+                    e.preventDefault();
+                } else {
+                    emailInput.removeClass('is-invalid');
+                }
+            });
+            });
+
+            
+
+            function validateEmail(email) {
+                // Email validation logic
+                var re = /\S+@\S+\.\S+/;
+                return re.test(email);
+            }
+
+            function checkPasswordMatch() {
+                var password = document.getElementById("member_password");
+                var confirm_password = document.getElementById("con_password");
+                var error_message = document.getElementById("passwordMatchError");
+
+                if (password.value != confirm_password.value) {
+                    error_message.innerHTML = "Passwords do not match.";
+                    confirm_password.setCustomValidity("Passwords do not match.");
+                } else {
+                    error_message.innerHTML = "";
+                    confirm_password.setCustomValidity("");
+                }
+            }
+	</script>
+</body>
+</html>
+
+
+

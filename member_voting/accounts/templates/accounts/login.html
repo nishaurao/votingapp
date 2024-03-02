@@ -1,0 +1,127 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Online voting system</title>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Font-->
+	<link rel="stylesheet" type="text/css" href="{% static 'evoting/css/opensans-font.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'evoting/css/bootstrap.css' %}">
+
+	<!-- datepicker -->
+	<link rel="stylesheet" type="text/css" href="{% static 'evoting/css/jquery-ui.min.css' %}">
+	<!-- Main Style Css -->
+    <link rel="stylesheet" href="{% static 'evoting/css/style.css'%}"/>
+</head>
+
+
+<body>
+    <div class="container mt-5">
+		<div class="row">
+			<div class="col-md-12">
+			<h1 class="card-title text-center mb-4">Online Voting System</h1>
+			</div>
+        </div>
+		
+        <div class="row justify-content-center">
+            <div class="col-md-8 ">
+                {% if messages %}
+                <div >
+                    <ul>
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} text-center">{{ message }}</div>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+               
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <form  method="post">
+
+                            {% csrf_token %}
+                            <div id="form-total">
+                                <section>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="username">Username</label>
+                                                <input type="text" class="form-control" id="username" name="username" 
+                                                value="{{ form.username.value|default_if_none:'' }}"  required >
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="password">Password</label>
+                                                <input type="password" class="form-control" id="password" name="password" 
+                                                value="{{ form.password.value|default_if_none:'' }}"  required >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+
+                                            <button type="submit" class="btn btn-warning">Submit</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center mt-2">
+                                            Not registered? <a href="{% url 'register' %}" style="text-decoration: none; color:green" > Create an account </a>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->	
+	<script src="{% static 'evoting/js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'evoting/js/jquery-ui.min.js' %}"></script>
+	<script src="{% static 'evoting/js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript">
+		$('#inputDate').datepicker({
+	});
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div>{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a>.</p>
+</body>
+</html> -->
