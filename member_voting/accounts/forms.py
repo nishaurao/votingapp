@@ -1,7 +1,7 @@
 from django import forms
 from .models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
-from .models import Candidate
+from .models import Candidate, Vote
 
 
 class UserRegisterForm(UserCreationForm):
@@ -41,5 +41,18 @@ class UserRegisterForm(UserCreationForm):
 class CandidateForm(forms.ModelForm):
     class Meta:
         model = Candidate
-        fields = ['name']  # Add other fields as needed
+        fields = ['name']  
 
+class VotingDatesForm(forms.Form):
+    start_date = forms.DateField(label='Start Date', widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(label='End Date', widget=forms.DateInput(attrs={'type': 'date'}))
+
+class UpdateVotingDatesForm(forms.Form):
+    start_date = forms.DateField(label='Start Date', widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(label='End Date', widget=forms.DateInput(attrs={'type': 'date'}))
+
+
+class VoteForm(forms.ModelForm):
+    class Meta:
+        model = Vote
+        fields = ['candidate']

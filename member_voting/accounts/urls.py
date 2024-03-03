@@ -10,6 +10,9 @@ urlpatterns = [
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('add-candidate/', views.add_candidate, name='add_candidate'),
     path('reset-candidates/', views.reset_candidates, name='reset_candidates'),
+    path('set-voting-dates/', views.set_voting_dates, name='set_voting_dates'),
+    path('update-voting-dates/', views.update_voting_dates, name='update_voting_dates'),
+    path('setdate-success/', views.setdate_success, name='setdate_success'),
 
 
 ]

@@ -5,10 +5,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CandidateForm
 from .forms import UserRegisterForm
-from .models import Candidate,Vote
-
-
-
+from .models import Candidate,Vote,VotingSettings
+from .forms import VotingDatesForm
+from .forms import UpdateVotingDatesForm
+from .forms import VoteForm
+from datetime import datetime,date
 
 # Create your views here.
 
@@ -111,3 +112,69 @@ def add_candidate(request):
         form = CandidateForm()
     return render(request, 'accounts/add_candidate.html', {'form': form})
 
+
+@login_required
+def set_voting_dates(request):  
+    if VotingSettings.objects.exists():
+        # Voting dates are already set, redirect to the update voting page
+        return redirect('update_voting_dates')
+    
+    if request.method == 'POST':
+        form = VotingDatesForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+            if start_date < end_date:
+                # Save the voting dates to the database
+                VotingSettings.objects.create(start_date=start_date, end_date=end_date)
+                # Add a success message
+                messages.success(request, "Voting dates successfully set.")
+                # Redirect to success page
+                return redirect('setdate_success')  
+            else:
+                messages.error(request, "End date must be greater than start date.")
+        else:
+            messages.error(request, "Invalid form submission. Please correct the errors.")
+    else:
+        form = VotingDatesForm()
+    
+    return render(request, 'accounts/set_voting_dates.html', {'form': form})
+
+
+
+def update_voting_dates(request):
+    try:
+        current_settings = VotingSettings.objects.get(pk=1) # this will handle only single poll event. we can enhance the functionlity to make it multiple events
+    except VotingSettings.DoesNotExist:
+        current_settings = None
+
+    if request.method == 'POST':
+        form = UpdateVotingDatesForm(request.POST)
+        if form.is_valid():
+            new_start_date = form.cleaned_data['start_date']
+            new_end_date = form.cleaned_data['end_date']
+            
+            if new_start_date < new_end_date:
+                try:
+                    if current_settings:
+                        current_settings.start_date = new_start_date
+                        current_settings.end_date = new_end_date
+                        current_settings.save()
+                    else:
+                        VotingSettings.objects.create(start_date=new_start_date, end_date=new_end_date)
+                    return redirect('setdate_success')
+                except Exception as e:
+                    print("Error updating voting dates:", e)
+            else:
+                messages.error(request, "End date must be greater than start date.")
+        else:
+            print("Form errors:", form.errors)
+    else:
+        initial_data = {'start_date': current_settings.start_date, 'end_date': current_settings.end_date} if current_settings else None
+        form = UpdateVotingDatesForm(initial=initial_data)
+
+    return render(request, 'accounts/update_voting_dates.html', {'form': form})
+
+
+def setdate_success(request):
+    return render(request, 'accounts/setdate_success.html')
