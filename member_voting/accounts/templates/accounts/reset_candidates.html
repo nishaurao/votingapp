@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Candidates</title>
+</head>
+<body>
+    <h1>Reset Candidates</h1>
+    <p>Are you sure you want to reset all candidates?</p>
+    <form action="{% url 'reset_candidates' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Reset Candidates</button>
+    </form>
+</body>
+</html>

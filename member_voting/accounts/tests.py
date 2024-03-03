@@ -29,7 +29,6 @@ class RegisterViewTestCase(TestCase):
         response = self.client.post(self.register_url, data)
         self.assertEqual(response.status_code, 200) #check if response is success
 
-       
 
 
     def test_register_view_get(self):
@@ -90,3 +89,6 @@ class UserDetailsViewTestCase(TestCase):
 
         # Check if the correct template is used
         self.assertTemplateUsed(response, 'accounts/user_details.html')
+
+
+

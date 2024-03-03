@@ -36,7 +36,7 @@
                             <a class="nav-link" href="{% url 'admin_dashboard' %}">Candidates</a>
                         </li>
                     {% endif %}
-                   
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
@@ -57,62 +57,51 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                               <h4>User details</h4> 
+                               <h4>Candidates</h4> 
                                 </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 text-center">
-                                First Name:
-                             </div>
-                             <div class="col-md-6 text-center">
-                                {{ user.first_name }}
-                             </div>
+                        <div class="container">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Candidate Name</th>
+                                        <th scope="col">Total Votes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if candidate_votes %}
+                                        {% for candidate, votes in candidate_votes.items %}
+                                        
+                                        <tr>
+                                            <td>{{ candidate }}</td>
+                                            <td>{{ votes }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="2" class="2">No candidates available</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 text-center">
-                                Last Name:
-                             </div>
-                             <div class="col-md-6 text-center">
-                                {{ user.last_name }}
-                             </div>
-                        </div>
-                       
-                        <div class="row">
-                            <div class="col-md-6 text-center">
-                                Username:
-                             </div>
-                             <div class="col-md-6 text-center">
-                                {{ user.username }}
-                             </div>
-                        </div>
-                        <div class="row">
-                             <div class="col-md-6 text-center">
-                                Email:
-                             </div>
-                             <div class="col-md-6 text-center">
-                                {{ user.email }}
-                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 text-center">
-                               Phone:
-                            </div>
-                            <div class="col-md-6 text-center">
-                               {{ user.phone }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 text-center">
-                                IRD Number:
-                            </div>
-                            <div class="col-md-6 text-center">
-                               {{ user.ird_number }}
-                            </div>
-                        </div>
-                        </div>
-                        </div>
+                        
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center mt-3">
+               
+                <a href="{% url 'add_candidate' %}" style="text-decoration: none;">
+                    <button class="btn btn-success mt-2">Add Candidates</button>
+                </a>
+
+                <a href="{% url 'reset_candidates' %}" style="text-decoration: none;">
+                    <button class="btn btn-danger mt-2">Delete Candidates</button>
+                </a>
+
             </div>
         </div>
     </div>
@@ -124,6 +113,7 @@
 	
 </body>
 </html>
+
 
 
 

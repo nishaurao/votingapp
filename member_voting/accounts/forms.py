@@ -1,6 +1,8 @@
 from django import forms
 from .models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
+from .models import Candidate
+
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -33,3 +35,11 @@ class UserRegisterForm(UserCreationForm):
         if CustomUser.objects.filter(ird_number=ird_number).exists():
             raise forms.ValidationError('This IRD number is already in use.')
         return ird_number
+
+
+
+class CandidateForm(forms.ModelForm):
+    class Meta:
+        model = Candidate
+        fields = ['name']  # Add other fields as needed
+
