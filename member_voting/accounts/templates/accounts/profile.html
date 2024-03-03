@@ -51,14 +51,32 @@
 			<h1 class="card-title text-center mb-4">Welcome {{ user.username }}!</h1>
 			</div>
         </div>
-
+        <div class="row">
+			<div class="col-md-12">
+                <h5 class="card-title text-center mb-4">
+                    Voting Period is between {{vote_set.start_date}} - {{vote_set.end_date}}
+                </h5>
+			</div>
+        </div>
         
 		{% if user.role == 'voter' %}
         <div class="row justify-content-center">
             <di v class="col-md-12 d-flex justify-content-center  ">
                 <div class="card custom-card" style="width: 18rem;" >
                     <div class="card-body">
-                       
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                {% if not has_voted %}
+                                    Cast your vote
+                                    <br/>
+                                    <a href="{% url 'vote' %}" style="text-decoration: none;">
+                                        <button class="btn btn-primary mt-2">Vote</button>
+                                    </a>
+                                {% else %}
+                                    <p>You have already voted.</p>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card custom-card ml-3" style="width: 18rem;">

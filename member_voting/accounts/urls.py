@@ -13,6 +13,9 @@ urlpatterns = [
     path('set-voting-dates/', views.set_voting_dates, name='set_voting_dates'),
     path('update-voting-dates/', views.update_voting_dates, name='update_voting_dates'),
     path('setdate-success/', views.setdate_success, name='setdate_success'),
+    path('vote/', views.vote, name='vote'),
+    path('thank-you/', views.thank_you, name='thank_you'),
+    path('voting-not-allowed/', views.voting_not_allowed, name='voting_not_allowed'),
 
 
 ]
