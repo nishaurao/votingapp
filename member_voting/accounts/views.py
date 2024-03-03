@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CandidateForm
 from .forms import UserRegisterForm
-from .models import Candidate,Vote,VotingSettings
+from .models import Candidate,Vote,VotingSettings,CustomUser
 from .forms import VotingDatesForm
 from .forms import UpdateVotingDatesForm
 from .forms import VoteForm
@@ -245,3 +245,8 @@ def thank_you(request):
 @login_required
 def voting_not_allowed(request):
     return render(request, 'accounts/voting_not_allowed.html')
+
+@login_required
+def customuser_list(request):
+    users = CustomUser.objects.all()
+    return render(request, 'accounts/customuser_list.html', {'users': users})

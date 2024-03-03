@@ -16,6 +16,6 @@ urlpatterns = [
     path('vote/', views.vote, name='vote'),
     path('thank-you/', views.thank_you, name='thank_you'),
     path('voting-not-allowed/', views.voting_not_allowed, name='voting_not_allowed'),
-
+    path('customuser-list/', views.customuser_list, name='customuser_list'),
 
 ]
